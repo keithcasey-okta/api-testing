@@ -13,6 +13,7 @@ class FeatureContext extends BehatContext
     protected $domain = '';
 
     protected $client = null;
+    protected $response = null;
 
     /**
      * Initializes context.
@@ -24,9 +25,9 @@ class FeatureContext extends BehatContext
     public function __construct(array $parameters)
     {
         $this->apikey = $parameters['apikey'];
-        $this->domain = $parameters['domain'];
+        $this->domain = 'https://' . $parameters['domain'] . '/api/v1/';
 
-        $this->client = new GuzzleClient();
+        $this->client = new GuzzleClient(['base_uri' => $this->domain]);
     }
 
     /**
@@ -42,9 +43,14 @@ class FeatureContext extends BehatContext
     /**
      * @When /^I get "([^"]*)"$/
      */
-    public function iGet($arg1)
+    public function iGet($endpoint)
     {
-        throw new PendingException();
+        $this->response = 
+            $this->client->request('GET', $endpoint, [
+                'headers' => [
+                    'Authorization' => 'SSWS ' . $this->apikey
+                ]
+            ]);
     }
 
     /**
