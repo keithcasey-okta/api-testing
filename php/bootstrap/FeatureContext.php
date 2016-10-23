@@ -70,8 +70,26 @@ class FeatureContext extends BehatContext
     /**
      * @Given /^at least (\d+) "([^"]*)"$/
      */
-    public function atLeast($arg1, $arg2)
+    public function atLeast($min_expected_objects, $expected_object_type)
     {
-        throw new PendingException();
+        $payload = $this->response->getBody();
+        $data = json_decode($payload);
+        $object_count = count($data);
+
+        if ($object_count < $min_expected_objects) {
+            throw new Exception("Expected $min_expected_objects $expected_object_type(s) but found $object_count instead");
+        }
+
+        switch ($expected_object_type) {
+            case 'user':
+                $user = $data[0];
+                if (!property_exists($user, 'profile')) {
+                    throw new Exception("We did not find the expected '$expected_object_type' object");
+                }
+
+                break;
+            default:
+                throw new Exception("We did not find the expected '$expected_object_type' object");
+        }
     }
 }
