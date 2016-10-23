@@ -8,6 +8,9 @@ use Behat\Behat\Context\BehatContext,
  */
 class FeatureContext extends BehatContext
 {
+    protected $apikey = '';
+    protected $domain = '';
+
     /**
      * Initializes context.
      *
@@ -15,8 +18,9 @@ class FeatureContext extends BehatContext
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
      */
-    public function __construct()
+    public function __construct(array $parameters)
     {
+        $this->apikey = $parameters['apikey'];
     }
 
     /**
@@ -24,7 +28,9 @@ class FeatureContext extends BehatContext
      */
     public function iHaveAValidApiKey()
     {
-        throw new PendingException();
+        if ('' == $this->apikey) {
+            throw new Exception("You must provide an API key in behat.yml");
+        }
     }
 
     /**
