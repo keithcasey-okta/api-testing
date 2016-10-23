@@ -58,7 +58,13 @@ class FeatureContext extends BehatContext
      */
     public function iShouldGetASuccessfulResponse()
     {
-        throw new PendingException();
+        $code = $this->response->getStatusCode();
+
+        if (2 == (int) $code/100) {
+            return true;
+        }
+
+        throw new Exception("Expected a 2xx success response but received $code response code");
     }
 
     /**
