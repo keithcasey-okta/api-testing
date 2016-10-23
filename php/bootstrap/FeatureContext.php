@@ -1,7 +1,8 @@
 <?php
 
 use Behat\Behat\Context\BehatContext,
-    Behat\Behat\Exception\PendingException;
+    Behat\Behat\Exception\PendingException,
+    GuzzleHttp\Client as GuzzleClient;
 
 /**
  * Defines application features from the specific context.
@@ -10,6 +11,8 @@ class FeatureContext extends BehatContext
 {
     protected $apikey = '';
     protected $domain = '';
+
+    protected $client = null;
 
     /**
      * Initializes context.
@@ -21,6 +24,9 @@ class FeatureContext extends BehatContext
     public function __construct(array $parameters)
     {
         $this->apikey = $parameters['apikey'];
+        $this->domain = $parameters['domain'];
+
+        $this->client = new GuzzleClient();
     }
 
     /**
