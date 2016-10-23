@@ -1,0 +1,7 @@
+
+php/config/behat.yml
+php/vendor/*
+
+php/composer.lock
+
+php/composer.phar

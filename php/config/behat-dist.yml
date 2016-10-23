@@ -1,0 +1,9 @@
+default:
+    paths:
+        features:     ../features
+        bootstrap:    bootstrap
+    context:
+        class:        FeatureContext
+        parameters:
+            apikey:   api-key
+            domain:   mycompany.oktapreview.com
